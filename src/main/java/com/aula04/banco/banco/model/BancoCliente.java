@@ -43,7 +43,7 @@ public class BancoCliente {
         BancoCliente.clientes.stream().filter(cliente -> Objects.equals(cliente.getId(),id))
                 .forEach(cliente -> {
                     Optional<Conta> resultConta = cliente.getContas().stream().filter(conta -> Objects.equals(conta.getId(),requestDeposito.getConta())).findAny();
-                   if(resultConta.isPresent()) {
+                    if(resultConta.isPresent()) {
                        Double novoSaldo = resultConta.get().getSaldo() + requestDeposito.getValor();
                        resultConta.get().setSaldo(novoSaldo);
                    } else {

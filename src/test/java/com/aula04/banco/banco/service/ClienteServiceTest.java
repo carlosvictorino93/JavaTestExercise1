@@ -10,7 +10,6 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
-
 public class ClienteServiceTest {
 
     ClienteService clienteService = new ClienteService();

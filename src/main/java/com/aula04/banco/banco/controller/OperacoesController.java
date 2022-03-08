@@ -2,6 +2,9 @@ package com.aula04.banco.banco.controller;
 
 import com.aula04.banco.banco.BancoAula04Application;
 import com.aula04.banco.banco.dto.RequestDeposito;
+import com.aula04.banco.banco.service.ClienteService;
+import com.aula04.banco.banco.service.OperacoesService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,13 +15,15 @@ import java.util.UUID;
 @RequestMapping("/operacoes")
 public class OperacoesController {
 
+    @Autowired
+    private OperacoesService operacoesService;
+
     @PatchMapping("/deposita")
     public ResponseEntity deposita(
             @RequestHeader("id") UUID id,
             @RequestBody RequestDeposito requestDeposito
     ) throws Exception {
-        BancoAula04Application.bancoCliente.deposita(id, requestDeposito);
+        operacoesService.depositar(id, requestDeposito);
         return ResponseEntity.ok().build();
     }
-
 }
