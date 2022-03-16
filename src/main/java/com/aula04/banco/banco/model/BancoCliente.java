@@ -2,6 +2,7 @@ package com.aula04.banco.banco.model;
 
 import com.aula04.banco.banco.dto.RequestCliente;
 import com.aula04.banco.banco.dto.RequestDeposito;
+import com.aula04.banco.banco.dto.RequestSaque;
 
 import java.util.*;
 
@@ -53,6 +54,31 @@ public class BancoCliente {
                            e.printStackTrace();
                        }
                    }
+                });
+    }
+
+    public void sacar(UUID id, RequestSaque requestSaque) throws Exception{
+        BancoCliente.clientes.stream().filter(cliente -> Objects.equals(cliente.getId(),id))
+                .forEach(cliente -> {
+                    Optional<Conta> resultConta = cliente.getContas().stream().filter(conta -> Objects.equals(conta.getId(),requestSaque.getConta())).findAny();
+                    if(resultConta.isPresent()) {
+                        double saldo = resultConta.get().getSaldo();
+                        if (saldo >= requestSaque.getValor()) {
+                        Double novoSaldo = resultConta.get().getSaldo() - requestSaque.getValor();
+                        resultConta.get().setSaldo(novoSaldo); } else {
+                            try {
+                                throw new Exception("Saldo Insuficiente");
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    } else {
+                        try {
+                            throw new Exception("Conta não encontrada");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
                 });
     }
 
